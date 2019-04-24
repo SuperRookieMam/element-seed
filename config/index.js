@@ -9,7 +9,7 @@ module.exports = {
     mode: 'development',
     // Paths
     assetsSubDirectory: 'static', // 静态资源的路径
-    assetsPublicPath: '/element-seed/', // 项目发布路径
+    assetsPublicPath: '/datamanager/', // 项目发布路径
     proxyTable: {}, // devServer反向代理列表
 
     // Various Dev Server settings

@@ -3,7 +3,7 @@
     <el-header>
       <el-row>
         <el-col :span="12">
-          <h2> xz element-seed template</h2>
+          <h2> 后台管理 </h2>
         </el-col>
         <el-col :span="12">
           <el-menu mode="horizontal"
