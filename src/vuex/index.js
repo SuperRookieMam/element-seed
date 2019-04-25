@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 
 Vue.use(Vuex) // use必须在创建store实例之前调用
-
+const CTX = CONTEXT_PATH + 'data/'
 export default new Store({
   state: {
     title: '应用',
@@ -13,7 +13,12 @@ export default new Store({
     },
     loadingCount: 0,
     theme: 'left',
-    menus: []
+    menus: [],
+    url: {
+      authorityMenus: CTX + 'menuFunction/menus',
+      login: CTX + 'oauth/token',
+      logout: CTX + 'logout'
+    }
   },
   mutations: {
     updateTitle (state, { title }) {
@@ -48,11 +53,14 @@ export default new Store({
     }
   },
   actions: {
-    loadMenu ({ commit }) {
-      return Vue.http.get('/menus').then(({ data }) => {
-        commit('updateMenu', data)
-        return data
-      })
+    loadMenu ({commit, state: { url }}) {
+      return Vue.http.get(url.authorityMenus)
+                    .then(({ data }) => {
+                      console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+                      console.log(data)
+                      commit('updateMenu', data)
+                    return data
+                  })
     }
   }
 })

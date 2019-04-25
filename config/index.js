@@ -9,8 +9,15 @@ module.exports = {
     mode: 'development',
     // Paths
     assetsSubDirectory: 'static', // 静态资源的路径
-    assetsPublicPath: '/datamanager/', // 项目发布路径
-    proxyTable: {}, // devServer反向代理列表
+    assetsPublicPath: '/', // 项目发布路径
+    proxyTable: {
+      // 如果使用本地后台服务，请打开下列配置
+      '/data/': {
+        changeOrigin: true,
+        target: 'http://127.0.0.1:8005/',
+        pathRewrite: { '^/data/': '' }
+      }
+    }, // devServer反向代理列表
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

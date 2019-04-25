@@ -14,4 +14,9 @@ export default [{
   name: 'theme',
   path: '/theme',
   component: () => import('../component/ThemeSwitch')
-}]
+}, {
+  name: 'login',
+  path: '/login',
+  component: () => import('@/components/theme/login/login')
+}
+]
