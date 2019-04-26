@@ -1,19 +1,16 @@
 <template>
   <el-submenu v-if="item.submenus && item.submenus.length>0"
+              popper-class="my-submenu"
               :index="item.id+''">
-    <template slot="title">
-      {{ item.title }}
-    </template>
+    <template slot="title"> {{ item.cname }}</template>
     <menu-item v-for="(submenu,index) in item.submenus"
                :item="submenu"
                :key="index"/>
   </el-submenu>
   <el-menu-item v-else
-                :route="item.href"
+                @click="toTarget(item)"
                 :index="item.id+''">
-    <template slot="title">
-      {{ item.title }}
-    </template>
+    <template>{{ item.cname }}</template>
   </el-menu-item>
 </template>
 
@@ -27,6 +24,14 @@
   export default class MenuItem extends Vue {
     @Prop({default: () => {}})
     item
+
+    toTarget ({isMenu}) {
+      if (isMenu === 1) {
+        this.$router.push('table1')
+      } /* else if (isMenu === 'HYPERLINK') {
+        window.location.href = href
+      } */
+    }
   }
 </script>
 

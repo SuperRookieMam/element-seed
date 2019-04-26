@@ -1,9 +1,10 @@
 <template>
-  <left-theme-template v-if="theme==='left'"/>
+  <router-view/>
+  <!--<left-theme-template v-if="theme==='left'"/>
   <top-theme-template v-else-if="theme==='top'"/>
   <div v-else>
     你没有选择任何主题
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -14,7 +15,7 @@
   @Component({
     components: {
       // 注册两个主题组件
-      leftThemeTemplate: () => import('./components/theme/left-main/Index'),
+      leftThemeTemplate: () => import('./components/theme/left-main/Leftmain'),
       topThemeTemplate: () => import('./components/theme/top-main/Index')
     }
   })

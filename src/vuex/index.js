@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
+import Login from './login'
 
 Vue.use(Vuex) // use必须在创建store实例之前调用
 const CTX = CONTEXT_PATH + 'data/'
 export default new Store({
+  namespaced: true,
   state: {
     title: '应用',
     user: {},
@@ -16,9 +18,12 @@ export default new Store({
     menus: [],
     url: {
       authorityMenus: CTX + 'menuFunction/menus',
-      login: CTX + 'oauth/token',
+      login: CTX + 'login',
       logout: CTX + 'logout'
     }
+  },
+  getters: {
+    menus: state => { return state.menus }
   },
   mutations: {
     updateTitle (state, { title }) {
@@ -29,9 +34,6 @@ export default new Store({
     switchTheme (state, theme) {
       state.theme = theme
     },
-    updateUser (state, { user }) {
-      state.user = user
-    },
     addError (state, payload) {
       let count = 1 + state.error.count
       let message = payload
@@ -39,6 +41,9 @@ export default new Store({
         count,
         message
       }
+    },
+    updateUser: (state, user) => {
+      state.user = user
     },
     loading (state) {
       state.loadingCount++
@@ -56,11 +61,12 @@ export default new Store({
     loadMenu ({commit, state: { url }}) {
       return Vue.http.get(url.authorityMenus)
                     .then(({ data }) => {
-                      console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
-                      console.log(data)
                       commit('updateMenu', data)
                     return data
                   })
     }
+  },
+  modules: {
+    Login: Login
   }
 })

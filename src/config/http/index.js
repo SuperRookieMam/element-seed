@@ -24,8 +24,6 @@ instance.interceptors.response.use(response => {
   return response
 }, error => {
   store.commit('loadingComplete')
-  debugger
-  console.log(error)
   let { response: { status } } = error
   if (status === 401) {
     let url = encodeURI(window.location.href)

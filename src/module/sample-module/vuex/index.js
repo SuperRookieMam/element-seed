@@ -7,5 +7,8 @@ export default {
     action1 () {
       return 'good'
     }
+  },
+  modules: {
+
   }
 }

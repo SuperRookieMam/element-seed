@@ -3,11 +3,11 @@
     <div class="inner">
       <div class="inner-div">
         <label class="inner-div-label">账号:</label>
-        <input class="inner-div-input" type="text" v-model="name">
+        <input class="inner-div-input" type="text" v-model="data.username">
       </div>
       <div class="inner-div">
         <label class="inner-div-label">密码:</label>
-        <input class="inner-div-input" type="text" v-model="passWord">
+        <input class="inner-div-input" type="text" v-model="data.password">
       </div>
       <div class="inner-div">
         <input type="button" value="登陆" @click="toHomePage">
@@ -19,14 +19,23 @@
 <script>
   import Vue from 'vue'
   import { Component } from 'vue-property-decorator'
+  import { namespace } from 'vuex-class'
 
-@Component
+  const loginModel = namespace('Login')
+
+ @Component
   export default class Login extends Vue {
-  name= ''
-  passWord =''
+  data = {}
+
+   @loginModel.Action('login')
+   login
+
   toHomePage () {
-    this.$router.push({ name: 'hompage' })
-  }
+      this.login(this.data).then((data) => {
+          this.$router.push('/')
+        }
+      )
+    }
   }
 </script>
 <style>
