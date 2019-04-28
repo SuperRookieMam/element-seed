@@ -32,7 +32,8 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <router-view/>
+        <!--<router-view/>-->
+        {{ tes() }}
       </el-main>
     </el-container>
   </el-container>
@@ -61,8 +62,12 @@
 
     @Getter('menus')
     menus
+    tes () {
+      return analysParam.analysParam('field eq 1 and (((field ge 15 and field le 16)  or (field ge 2 and  field ge 6 )) or field ge 8)')
+    }
+
     get displayUsername () {
-      let {username} = this.currentUser
+       let {username} = this.currentUser
       return username
     }
   }
