@@ -43,6 +43,7 @@
   import { Component } from 'vue-property-decorator'
   import { Action, Getter, namespace } from 'vuex-class'
   import MenuItem from '../MenuItem'
+  import analysParam from '../../../plugins/ParamUtils'
 
   const loginModule = namespace('Login')
 
@@ -60,7 +61,6 @@
 
     @Getter('menus')
     menus
-
     get displayUsername () {
       let {username} = this.currentUser
       return username
