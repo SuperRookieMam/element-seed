@@ -186,6 +186,11 @@ export default {
     } else if (str.search('or') === 0) { // 此层为or链接
       expression.unique = 0
       expression.joinType = 'or'
+      let expressions = []
+      expression.expressions = expressions
+      str = str.slice(0).trim()
+      while (str.length > 0) {
+      }
     }
     expressions.push(expression)
     if (str) {
