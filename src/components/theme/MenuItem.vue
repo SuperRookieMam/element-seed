@@ -27,8 +27,8 @@
 
     toTarget ({isMenu}) {
       if (isMenu === 1) {
-        console.log(analysParam.analysParam('field eq    1   and ( ( (field ge "15" and  field le "16")    or   (field   ge "2" and  field ge "6"  )  ) or field ge "8"  )'))
-        this.$router.push('table1')
+        console.log(analysParam.analysParam('field eq    1   and ( ( (field ge 15 and  field le 16)    or   (field   ge 2 and  field ge 6  )  ) or field ge 8  )'))
+        this.$router.push('test')
       } /* else if (isMenu === 'HYPERLINK') {
         window.location.href = href
       } */

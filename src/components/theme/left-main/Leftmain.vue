@@ -32,8 +32,7 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <!--<router-view/>-->
-        {{ tes() }}
+        <router-view/>
       </el-main>
     </el-container>
   </el-container>
@@ -44,7 +43,6 @@
   import { Component } from 'vue-property-decorator'
   import { Action, Getter, namespace } from 'vuex-class'
   import MenuItem from '../MenuItem'
-  import analysParam from '../../../plugins/ParamUtils'
 
   const loginModule = namespace('Login')
 
@@ -62,14 +60,11 @@
 
     @Getter('menus')
     menus
-    tes () {
-      return analysParam.analysParam('field eq 1 and (((field ge 15 and field le 16)  or (field ge 2 and  field ge 6 )) or field ge 8)')
-    }
 
     get displayUsername () {
        let {username} = this.currentUser
       return username
-    }
+  }
   }
 </script>
 <style lang="less">

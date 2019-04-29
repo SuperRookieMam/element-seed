@@ -22,7 +22,11 @@ export default [{
         name: 'theme',
         path: '/theme',
         component: () => import('../component/ThemeSwitch')
-      }
+      }, {
+      name: 'test',
+      path: '/test',
+      component: () => import('../component/TestTalble')
+    }
     ]
   }
 

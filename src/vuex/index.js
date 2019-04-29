@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import Login from './login'
+import FormState from './FormState'
 
 Vue.use(Vuex) // use必须在创建store实例之前调用
 const CTX = CONTEXT_PATH + 'data/'
@@ -67,6 +68,7 @@ export default new Store({
     }
   },
   modules: {
-    Login: Login
+    Login: Login,
+    Formstate: new FormState()
   }
 })

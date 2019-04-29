@@ -25,7 +25,10 @@
 
  @Component
   export default class Login extends Vue {
-  data = {}
+  data = {
+    username: '绝世好男人',
+    password: '123456'
+  }
 
    @loginModel.Action('login')
    login

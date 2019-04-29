@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form size="mini"
-             inline="true"
+             :inline="true"
              :model="searchObj"
              class="clear-float">
       <el-row>
@@ -64,8 +64,8 @@
         </el-col>
       </el-row>
     </el-form>
-    <ele-data-tables :data="guideShows">
-      <el-table-column v-for="(item,index) in tableMesg.headerMsg"
+    <EleDatatables :data="getDatas">
+      <el-table-column v-for="(item,index) in tableMesage.headerMsg"
                        :key="index"
                        :label="item.name"
                        :prop="item.propety"
@@ -76,7 +76,7 @@
           <el-button type="text" size="mini" @click="delete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
-    </ele-data-tables>
+    </EleDatatables>
   </div>
 </template>
 
@@ -86,33 +86,47 @@
   import EleDatatables from 'element-datatables'
   import { namespace } from 'vuex-class'
 
-  const SampleModule = namespace('sample')// 这里的名称要和某块中注册的名称一致
+  const Formstate = namespace('Formstate')// 这里的名称要和某块中注册的名称一致
 
   @Component({
     components: {
       EleDatatables
     }
   })
-  export default class TableOne extends Vue {
+  export default class DynamicTable extends Vue {
     @Prop({ default: () => {} })
     searchObj
 
     @Prop({ default: () => {} })
     tableMesage
 
+    @Prop({ default: () => {} })
+    params
+
     ajax = '/table1'
 
-    @SampleModule.State('name')
-    name
+    @Formstate.Action('get')
+    action
 
-    @SampleModule.Action('action1')
-    action1
-
-    created () {
-      console.log('get data from namespaced module', this.name)
-      this.action1().then(data => {
-        console.log('get data from namespaced action', data)
+    get getDatas () {
+      let data = []
+      this.action({url: this.tableMesage.url + '?page=page&whereContext=' + JSON.stringify(this.params.whereContext), params: this.params}).then(result => {
+        if (result.code === 0) {
+          data = result.data
+          console.log('<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>')
+          console.log(data)
+        }
       })
+      return data
+    }
+    add () {
+
+    }
+    edit (ele) {
+
+    }
+    delete (ele) {
+
     }
   }
 </script>
