@@ -68,7 +68,7 @@
       <el-table-column v-for="(item,index) in tableMesage.headerMsg"
                        :key="index"
                        :label="item.name"
-                       :prop="item.propety"
+                       :prop="item.property"
                        :sortable="item.sort"/>
       <el-table-column label="操作" :min-width="60">
         <template slot-scope="scope">
@@ -110,13 +110,9 @@
 
     get getDatas () {
       let data = []
-      this.action({url: this.tableMesage.url + '?page=page&whereContext=' + JSON.stringify(this.params.whereContext), params: this.params}).then(result => {
-        if (result.code === 0) {
-          data = result.data
-          console.log('<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>')
-          console.log(data)
-        }
-      })
+      console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>')
+      let test = this.action({url: this.tableMesage.url + '?page=page&whereContext=' + JSON.stringify(this.params.whereContext), params: this.params})
+      console.log(test)
       return data
     }
     add () {

@@ -60,7 +60,6 @@
 
     @Getter('menus')
     menus
-
     get displayUsername () {
        let {username} = this.currentUser
       return username

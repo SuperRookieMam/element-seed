@@ -21,21 +21,21 @@
         searchMsg: {
         searchFields: ['cname']
           },
-      headerMsg: [{name: '中文名称', propety: 'cname', sort: false},
-                    {name: '英文名称', propety: 'ename', sort: false},
-                    {name: '跳转地址', propety: 'url', sort: false},
-                    {name: '更能序号', propety: 'functionNumber', sort: false},
-                    {name: '父Id', propety: 'pid', sort: false},
-                    {name: '是否菜单', propety: 'isMenu', sort: false},
-                    {name: '是否显示', propety: 'isShow', sort: false},
-                    {name: '所属公司', propety: 'companyId', sort: false}
+      headerMsg: [{name: '中文名称', property: 'cname', sort: false},
+                    {name: '英文名称', property: 'ename', sort: false},
+                    {name: '跳转地址', property: 'url', sort: false},
+                    {name: '更能序号', property: 'functionNumber', sort: false},
+                    {name: '父Id', property: 'pid', sort: false},
+                    {name: '是否菜单', property: 'isMenu', sort: false},
+                    {name: '是否显示', property: 'isShow', sort: false},
+                    {name: '所属公司', property: 'companyId', sort: false}
                     ],
-      url: 'company'
+      url: 'menuFunction'
     }
     params ={
       page: 'page',
       whereContext: {
-        pageNum: 0,
+        pageNum: 1,
         pageSize: 30
       }
     }
