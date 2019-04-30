@@ -7,14 +7,14 @@ export default class FormState {
   } */
   actions = {
     get ({ state }, {url, params}) {
-     /* Vue.http.get(CTX + url, params).then(result => {
+      return Vue.http.get(CTX + url, params).then(result => {
         if (result.code === 0) {
           state.data = result.data.list
-          alert(state.data)
+          alert(JSON.stringify(state.data))
           return result.data.list
         }
-      }) */
-      return Vue.http.get(CTX + url, params)
+      })
+      // return Vue.http.get(CTX + url, params)
     },
     post ({ state }, {url, params}) {
       return Vue.http.post(CTX + url, params)

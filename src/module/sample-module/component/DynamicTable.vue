@@ -110,9 +110,12 @@
 
     get getDatas () {
       let data = []
-      console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>')
-      let test = this.action({url: this.tableMesage.url + '?page=page&whereContext=' + JSON.stringify(this.params.whereContext), params: this.params})
-      console.log(test)
+      this.action({url: this.tableMesage.url + '?page=page&whereContext=' + JSON.stringify(this.params.whereContext), params: this.params})
+        .then(ele => {
+          alert(JSON.stringify(ele))
+          data = ele
+          }
+        )
       return data
     }
     add () {
