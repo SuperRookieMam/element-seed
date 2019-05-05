@@ -130,18 +130,15 @@ export default {
     },
 
   searchParamsBuild (str, searchObj) {
-    // 吧多个空格替换成一个空格
-    let regEx = /\s+/g
-    str = str.replace(regEx, ' ')
-    let params = this.getExpressionFromStr(str)
-    console.log(params)
+    let params = this.analysParam(str)
     return this.delEmpty(params, searchObj)
   },
   delEmpty (params, searchObj) {
     let newParams = []
-    params.forEach(ele => {
+    for (var i = 0; i < params.length; i++) {
+        var ele = params[i]
       if (ele.unique === 0) {
-       let expressions = this.delEmpty(ele, searchObj)
+        let expressions = this.delEmpty(ele.expressions, searchObj)
         if (expressions.length > 0) {
           ele.expressions = expressions
           newParams.push(ele)
@@ -153,7 +150,7 @@ export default {
           newParams.push(ele)
         }
       }
-    })
+    }
      return newParams
   }
 }

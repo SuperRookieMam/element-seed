@@ -143,7 +143,7 @@
 
     }
     search () {
-      console.log(JSON.stringify(AnalysParam.searchParamsBuild(' name.pass like zhangsan and (name like zhansgan or  password eq 123456)', {'name.pass': 'zhangsan', 'password': '123456'})))
+      alert(JSON.stringify(AnalysParam.searchParamsBuild(' name.pass like zhangsan and (name like zhansgan or  password eq 123456) and passw eq 123456', {'name.pass': 'zhangsan', 'password': '123456', 'passw': '1'})))
     }
     activeIndex= '1'
     templateSearch={
