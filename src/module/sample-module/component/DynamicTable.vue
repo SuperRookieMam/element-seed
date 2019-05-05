@@ -85,7 +85,7 @@
   import { Component, Prop } from 'vue-property-decorator'
   import EleDatatables from 'element-datatables'
   import { namespace } from 'vuex-class'
-
+  import AnalysParam from '../../../plugins/ParamUtils'
   const Formstate = namespace('Formstate')// 这里的名称要和某块中注册的名称一致
 
   @Component({
@@ -110,6 +110,7 @@
 
     get getDatas () {
       let data = []
+      AnalysParam.analysParam('')
       this.action({url: this.tableMesage.url + '?page=page&whereContext=' + JSON.stringify(this.params.whereContext), params: this.params})
         .then(ele => {
           alert(JSON.stringify(ele))

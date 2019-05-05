@@ -19,31 +19,36 @@
       </el-submenu>
       <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
     </el-menu>
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="活动名称">
-        <el-input v-model="form.name"/>
-      </el-form-item>
-      <el-form-item label="活动区域">
-        <el-select v-model="form.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"/>
-          <el-option label="区域二" value="beijing"/>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="活动时间">
-        <el-col :span="11">
-          <el-date-picker type="date"
-                          placeholder="选择日期"
-                          v-model="form.date1"
-                          style="width: 100%;"/>
+    <el-form ref="form"
+             :model="form"
+             class="demo-form-inline"
+             size="mini"
+             label-width="80px">
+      <el-row>
+        <el-col :span="4">
+          <el-form-item label="活动名称">
+            <el-input v-model="form['name']"/>
+          </el-form-item>
         </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-time-picker type="fixed-time"
-                          placeholder="选择时间"
-                          v-model="form.date2"
-                          style="width: 100%;"/>
+        <el-col :span="4">
+          <el-form-item label="活动区域">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option v-for="(item,index) in selectData"
+                         :key="index"
+                         :label="item.lable"
+                         :value="item.value"/>
+            </el-select>
+          </el-form-item>
         </el-col>
-      </el-form-item>
+
+        <el-col :span="4">
+          <el-form-item label="活动时间">
+            <el-date-picker v-model="form.date1"
+                            type="datetime"
+                            placeholder="选择日期时间"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="即时配送">
         <el-switch v-model="form.delivery"/>
       </el-form-item>
@@ -68,11 +73,22 @@
         <el-button type="primary" @click="onSubmit">立即创建</el-button>
         <el-button>取消</el-button>
       </el-form-item>
+      <el-col :span="4">
+        <el-button type="primary"
+                   size="mini"
+                   @click="search()">
+          筛选
+        </el-button>
+        <el-button type="primary"
+                   size="mini"
+                   @click="add()">
+          新增
+        </el-button>
+      </el-col>
     </el-form>
     <el-table
       :data="tableData5"
       style="width: 100%">
-      <el-table-column type="expand"/>
       <el-table-column
         label="商品 ID"
         prop="id"/>
@@ -82,20 +98,27 @@
       <el-table-column
         label="描述"
         prop="desc"/>
+      <el-table-column label="操作" :min-width="60">
+        <template slot-scope="scope">
+          <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
+          <el-button type="text" size="mini" @click="delete(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="currentPage"
+      :page-sizes="pageSizes"
+      :page-size="currentPageSizes"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400"/>
+      :total="tableData5.length"/>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import { Component } from 'vue-property-decorator'
+  import AnalysParam from '../../../plugins/ParamUtils'
   @Component
   export default class TestTalble extends Vue {
     deleteRow (index, rows) {
@@ -113,9 +136,24 @@
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
     }
+    edit (data) {
+
+    }
+    delete (data) {
+
+    }
+    search () {
+      console.log(JSON.stringify(AnalysParam.searchParamsBuild(' name.pass like zhangsan and (name like zhansgan or  password eq 123456)', {'name.pass': 'zhangsan', 'password': '123456'})))
+    }
     activeIndex= '1'
-    activeIndex2= '1'
-    currentPage4 = 4
+    templateSearch={
+      template: ' name.pass like zhangsan and (name like zhansgan or  password eq 123456)'
+    }
+    currentPage = 4
+    currentPageSizes=50
+    pageSizes=[50, 100, 200, 400]
+    serchObj={}
+    selectData=[{lable: '嫖娼', value: 5000}, {lable: '找小姐', value: 10000}]
     form = {
       name: '',
       region: '',
@@ -161,17 +199,3 @@
     }]
   }
 </script>
-<style>
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
-</style>

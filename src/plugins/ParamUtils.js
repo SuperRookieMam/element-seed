@@ -127,6 +127,33 @@ export default {
       msg.msgs = msgs
       msg.type = flag
       return msg
-    }
+    },
 
+  searchParamsBuild (str, searchObj) {
+    // 吧多个空格替换成一个空格
+    let regEx = /\s+/g
+    str = str.replace(regEx, ' ')
+    let params = this.getExpressionFromStr(str)
+    console.log(params)
+    return this.delEmpty(params, searchObj)
+  },
+  delEmpty (params, searchObj) {
+    let newParams = []
+    params.forEach(ele => {
+      if (ele.unique === 0) {
+       let expressions = this.delEmpty(ele, searchObj)
+        if (expressions.length > 0) {
+          ele.expressions = expressions
+          newParams.push(ele)
+        }
+      } else {
+        if (searchObj[ele.key]) {
+          let vaue = searchObj[ele.key]
+          ele.value = vaue
+          newParams.push(ele)
+        }
+      }
+    })
+     return newParams
+  }
 }
