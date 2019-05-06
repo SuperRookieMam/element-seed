@@ -81,7 +81,7 @@
         </el-button>
         <el-button type="primary"
                    size="mini"
-                   @click="add()">
+                   @click="add('testForm')">
           新增
         </el-button>
       </el-col>
@@ -100,7 +100,7 @@
         prop="functionNumber"/>
       <el-table-column label="操作" :min-width="60">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="edit1(scope.row)">编辑</el-button>
+          <el-button type="text" size="mini" @click="edit('testForm',scope.row)">编辑</el-button>
           <el-button type="text" size="mini" @click="deleteRow('menuFunction',scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -148,10 +148,6 @@
           this.totalPage = ele.data.total
         }
       })
-    }
-
-    edit1 (data) {
-      this.$router.push({name: 'testForm', params: {rowData: data}})
     }
     created () {
       this.filterByserchObj()

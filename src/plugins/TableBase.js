@@ -37,11 +37,11 @@
             }
         })
    }
-  // edit (data) {
-  //   this.$router.push()
-  // }
-  // add () {
-  //   let data = {id: 'id'}
-  //   this.edit(data)
-  // }
+  edit (name, data) {
+    this.$router.push({name: name, params: {rowData: data}})
+  }
+  add (name) {
+    let data = {id: 'new'}
+    this.edit(name, data)
+  }
  }

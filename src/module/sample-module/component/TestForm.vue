@@ -1,4 +1,11 @@
 <template>
+  <div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
+      <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+      <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+      <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+    </el-tabs>
   <el-form :model="ruleForm"
            :rules="rules"
            ref="ruleForm"
@@ -23,7 +30,7 @@
         </el-form-item>
       </el-col>
       <el-col class="line" :span="2">
-        {{rowData}}
+        -
       </el-col>
       <el-col :span="11">
         <el-form-item prop="date2">
@@ -52,7 +59,7 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="活动形式" prop="desc">
-      <el-input type="textarea" v-model="DATA"/>
+      <el-input type="textarea" :value="getdata()"/>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm('ruleForm')">
@@ -63,6 +70,7 @@
       </el-button>
     </el-form-item>
   </el-form>
+  </div>
 </template>
 <script>
   import Vue from 'vue'
@@ -70,7 +78,7 @@
 
   @Component
   export default class TestForm extends Vue {
-    @Prop
+    @Prop({ default: () => {} })
     rowData
 
     ruleForm = {
@@ -122,6 +130,9 @@
     resetForm (formName) {
       this.$refs[formName].resetFields()
     }
+    getdata () {
+     return JSON.stringify(this.rowData)
+  }
   }
 </script>
 

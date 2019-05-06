@@ -31,7 +31,7 @@ export default [{
       name: 'testForm',
       path: '/testForm',
       component: () => import('../component/TestForm'),
-      props: (router) => ({ required: false, rowData: router.parms.rowData })
+      props: (route) => ({ rowData: route.params.rowData })
     }
     ]
   }
