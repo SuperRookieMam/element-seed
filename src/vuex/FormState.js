@@ -1,17 +1,26 @@
 import Vue from 'vue'
+import qs from 'qs'
+
 const CTX = CONTEXT_PATH + 'data/'
 export default class FormState {
   namespaced = true
-  /* getters = {
+  state ={
+    data: {}
+  }
+   getters = {
     data: state => { return state.data }
-  } */
+  }
+  mutations = {
+    data: (state, data) => {
+      state.data = data
+    }
+  }
   actions = {
-    get ({ state }, {url, params}) {
-      return Vue.http.get(CTX + url, params).then(result => {
+    get ({commit, state}, {url, params}) {
+      return Vue.http.get(CTX + url + '?' + qs.stringify(params)).then(result => {
         if (result.code === 0) {
-          state.data = result.data.list
-          alert(JSON.stringify(state.data))
-          return result.data.list
+          commit('data', result)
+          return result
         }
       })
       // return Vue.http.get(CTX + url, params)
@@ -22,8 +31,10 @@ export default class FormState {
     update ({ state }, { url, params }) {
       return Vue.http.put(CTX + url, params)
     },
-    del ({ state }, { url, params }) {
-      return Vue.http.delete(CTX + url)
+    del ({ state }, { url, params: { id } }) {
+      return Vue.http.delete(CTX + url + '/' + id).then(result => {
+          return result
+      })
     }
   }
 }

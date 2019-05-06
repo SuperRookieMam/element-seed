@@ -1,3 +1,4 @@
+
 export default [{
   name: 'login',
   path: '/login',
@@ -26,6 +27,11 @@ export default [{
       name: 'test',
       path: '/test',
       component: () => import('../component/TestTalble')
+    }, {
+      name: 'testForm',
+      path: '/testForm',
+      component: () => import('../component/TestForm'),
+      props: (router) => ({ required: false, rowData: router.parms.rowData })
     }
     ]
   }

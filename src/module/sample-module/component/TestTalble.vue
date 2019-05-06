@@ -76,7 +76,7 @@
       <el-col :span="4">
         <el-button type="primary"
                    size="mini"
-                   @click="search()">
+                   @click="filterByserchObj()">
           筛选
         </el-button>
         <el-button type="primary"
@@ -87,48 +87,53 @@
       </el-col>
     </el-form>
     <el-table
-      :data="tableData5"
+      :data="tableData"
       style="width: 100%">
       <el-table-column
         label="商品 ID"
-        prop="id"/>
+        prop="cname"/>
       <el-table-column
         label="商品名称"
-        prop="name"/>
+        prop="url"/>
       <el-table-column
         label="描述"
-        prop="desc"/>
+        prop="functionNumber"/>
       <el-table-column label="操作" :min-width="60">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
-          <el-button type="text" size="mini" @click="delete(scope.row)">删除</el-button>
+          <el-button type="text" size="mini" @click="edit1(scope.row)">编辑</el-button>
+          <el-button type="text" size="mini" @click="deleteRow('menuFunction',scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage"
+      :current-page="params.pageNum"
       :page-sizes="pageSizes"
-      :page-size="currentPageSizes"
+      :page-size="params.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="tableData5.length"/>
+      :total="totalPage"/>
   </div>
 </template>
 <script>
-  import Vue from 'vue'
-  import { Component } from 'vue-property-decorator'
-  import AnalysParam from '../../../plugins/ParamUtils'
+  import { Component, Mixins } from 'vue-property-decorator'
+  import TableBase from '../../../plugins/TableBase'
   @Component
-  export default class TestTalble extends Vue {
-    deleteRow (index, rows) {
-      rows.splice(index, 1)
+  export default class TestTalble extends Mixins(TableBase) {
+    templateSearch = ' url like t and (url like t or  companyId eq 1)'
+    serchObj={'url': 't', 'companyId': 1}
+    params ={
+      pageSize: 1,
+      pageNum: 1
     }
+    pageSizes=[1, 2, 3, 4]
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+     this.params.pageSize = val
+      this.filterByserchObj()
     }
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.params.pageNum = val
+      this.filterByserchObj()
     }
     onSubmit () {
       console.log('submit!')
@@ -136,23 +141,25 @@
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
     }
-    edit (data) {
-
+    filterByserchObj () {
+      this.search(this.templateSearch, this.serchObj, this.params, 'menuFunction').then(ele => {
+        if (ele.code === 0) {
+          this.tableData = ele.data.list
+          this.totalPage = ele.data.total
+        }
+      })
     }
-    delete (data) {
 
+    edit1 (data) {
+      this.$router.push({name: 'testForm', params: {rowData: data}})
     }
-    search () {
-      alert(JSON.stringify(AnalysParam.searchParamsBuild(' name.pass like zhangsan and (name like zhansgan or  password eq 123456) and passw eq 123456', {'name.pass': 'zhangsan', 'password': '123456', 'passw': '1'})))
+    created () {
+      this.filterByserchObj()
     }
     activeIndex= '1'
-    templateSearch={
-      template: ' name.pass like zhangsan and (name like zhansgan or  password eq 123456)'
-    }
+
     currentPage = 4
     currentPageSizes=50
-    pageSizes=[50, 100, 200, 400]
-    serchObj={}
     selectData=[{lable: '嫖娼', value: 5000}, {lable: '找小姐', value: 10000}]
     form = {
       name: '',
@@ -164,38 +171,5 @@
       resource: '',
       desc: ''
     }
-    tableData5= [{
-      id: '12987122',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      desc: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }, {
-      id: '12987123',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      desc: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }, {
-      id: '12987125',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      desc: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }, {
-      id: '12987126',
-      name: '好滋好味鸡蛋仔',
-      category: '江浙小吃、小吃零食',
-      desc: '荷兰优质淡奶，奶香浓而不腻',
-      address: '上海市普陀区真北路',
-      shop: '王小虎夫妻店',
-      shopId: '10333'
-    }]
   }
 </script>
