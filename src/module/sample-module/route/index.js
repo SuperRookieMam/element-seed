@@ -39,6 +39,14 @@ export default [{
         path: '/tt',
         component: () => import('../component/FormSample')
       }]
+    }, {
+      name: 'memuFunctions',
+      path: '/memuFunctions',
+      component: () => import('../../admin-module/component/MenuFunction/MenuFunctions')
+    }, {
+      name: 'memuFunction',
+      path: '/memuFunction',
+      component: () => import('../../admin-module/component/MenuFunction/MenuFunction')
     }
     ]
   }
