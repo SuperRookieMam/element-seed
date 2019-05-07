@@ -29,9 +29,16 @@ export default [{
       component: () => import('../component/TestTalble')
     }, {
       name: 'testForm',
-      path: '/testForm',
+      path: '/testForm/:id',
       component: () => import('../component/TestForm'),
-      props: (route) => ({ rowData: route.params.rowData })
+      props: true,
+      // props: (route) => ({ id: route.query.id }),
+      // props: (route) => ({ id: route.params.id }),
+      children: [{
+        name: 'tt',
+        path: '/tt',
+        component: () => import('../component/FormSample')
+      }]
     }
     ]
   }

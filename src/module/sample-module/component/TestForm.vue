@@ -1,96 +1,55 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
-      <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-      <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-      <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
-    </el-tabs>
-  <el-form :model="ruleForm"
-           :rules="rules"
-           ref="ruleForm"
-           label-width="100px"
-           class="demo-ruleForm">
-    <el-form-item label="活动名称" prop="name">
-      <el-input v-model="ruleForm.name"/>
-    </el-form-item>
-    <el-form-item label="活动区域" prop="region">
-      <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-        <el-option label="区域一" value="shanghai"/>
-        <el-option label="区域二" value="beijing"/>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="活动时间" required>
-      <el-col :span="11">
-        <el-form-item prop="date1">
-          <el-date-picker type="date"
-                          placeholder="选择日期"
-                          v-model="ruleForm.date1"
-                          style="width: 100%;"/>
-        </el-form-item>
-      </el-col>
-      <el-col class="line" :span="2">
-        -
-      </el-col>
-      <el-col :span="11">
-        <el-form-item prop="date2">
-          <el-time-picker type="fixed-time"
-                          placeholder="选择时间"
-                          v-model="ruleForm.date2"
-                          style="width: 100%;"/>
-        </el-form-item>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="即时配送" prop="delivery">
-      <el-switch v-model="ruleForm.delivery"/>
-    </el-form-item>
-    <el-form-item label="活动性质" prop="type">
-      <el-checkbox-group v-model="ruleForm.type">
-        <el-checkbox label="美食/餐厅线上活动" name="type"/>
-        <el-checkbox label="地推活动" name="type"/>
-        <el-checkbox label="线下主题活动" name="type"/>
-        <el-checkbox label="单纯品牌曝光" name="type"/>
-      </el-checkbox-group>
-    </el-form-item>
-    <el-form-item label="特殊资源" prop="resource">
-      <el-radio-group v-model="ruleForm.resource">
-        <el-radio label="线上品牌商赞助"/>
-        <el-radio label="线下场地免费"/>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item label="活动形式" prop="desc">
-      <el-input type="textarea" :value="getdata()"/>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">
-        立即创建
-      </el-button>
-      <el-button @click="resetForm('ruleForm')">
-        重置
-      </el-button>
-    </el-form-item>
-  </el-form>
+    <el-form :model="formData"
+             :rules="rules"
+             ref="ruleForm"
+             label-width="100px"
+             size="mini">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="用户管理" name="first">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="活动名称" prop="name">
+                <el-input v-model="formData.cname"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="活动名称" prop="name">
+                <el-date-picker type="datetime"
+                                placeholder="选择日期"
+                                v-model="formData.date1"
+                                style="width: 100%;"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="测试" name="tableTest">
+          <test-table/>
+        </el-tab-pane>
+        <el-tab-pane label="表单" name="formtest">
+          <router-view/>
+        </el-tab-pane>
+      </el-tabs>
+    </el-form>
   </div>
 </template>
 <script>
-  import Vue from 'vue'
-  import { Component, Prop } from 'vue-property-decorator'
-
-  @Component
-  export default class TestForm extends Vue {
-    @Prop({ default: () => {} })
-    rowData
-
-    ruleForm = {
-      name: '',
-      region: '',
-      date1: '',
-      date2: '',
-      delivery: false,
-      type: [],
-      resource: '',
-      desc: ''
+  import { Component, Prop, Mixins } from 'vue-property-decorator'
+  import TableBase from '../../../plugins/TableBase'
+  import TestTable from './TestTalble'
+  @Component({
+    components: {
+      TestTable
     }
+  })
+  export default class TestForm extends Mixins(TableBase) {
+    @Prop({ default: () => 'new' })
+    id
+    activeName = 'first'
+    controllerMapping = 'menuFunction'
+
     rules = {
       name: [
         {required: true, message: '请输入活动名称', trigger: 'blur'},
@@ -115,7 +74,11 @@
         {required: true, message: '请填写活动形式', trigger: 'blur'}
       ]
     }
-
+    handleClick (tab, event) {
+     /* if (tab.name === 'formtest') {
+        this.$router.push({name: 'tt', params: {rowData: {id: 'new'}}})
+      } */
+    }
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -127,12 +90,9 @@
       })
     }
 
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
+    created () {
+      this.getFormData(this.controllerMapping, this.id)
     }
-    getdata () {
-     return JSON.stringify(this.rowData)
-  }
   }
 </script>
 

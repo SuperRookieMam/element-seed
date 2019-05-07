@@ -17,12 +17,20 @@ export default class FormState {
   }
   actions = {
     get ({commit, state}, {url, params}) {
-      return Vue.http.get(CTX + url + '?' + qs.stringify(params)).then(result => {
-        if (result.code === 0) {
-          commit('data', result)
-          return result
-        }
-      })
+      if (params) {
+        return Vue.http.get(CTX + url + '?' + qs.stringify(params)).then(result => {
+          if (result.code === 0) {
+            commit('data', result)
+            return result
+          }
+        })
+      } else {
+        return Vue.http.get(CTX + url).then(result => {
+          if (result.code === 0) {
+            return result
+          }
+        })
+      }
       // return Vue.http.get(CTX + url, params)
     },
     post ({ state }, {url, params}) {

@@ -14,7 +14,10 @@
 
    tableData = []
 
+   formData = {}
+
    totalPage = 0
+
    search (templateSearch, serchObj, params, tableName) {
      params.pageNum = 1
      params.expressions = AnalysParam.searchParamsBuild(templateSearch, serchObj)
@@ -38,10 +41,20 @@
         })
    }
   edit (name, data) {
-    this.$router.push({name: name, params: {rowData: data}})
+    this.$router.push({name: name, params: {id: data.id}})
   }
   add (name) {
     let data = {id: 'new'}
     this.edit(name, data)
+  }
+
+  getFormData (tableName, id) {
+     if (id !== 'new') {
+       this.action({url: `${tableName}/${id}`})
+         .then(ele => {
+             this.formData = ele.data
+           }
+         )
+     }
   }
  }
