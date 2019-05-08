@@ -9,55 +9,6 @@
         <el-tab-pane label="基础信息" name="base">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="serialVersionUID" prop="serialVersionUID">
-                <el-input v-model="formData.serialVersionUID"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="createTime" prop="createTime">
-                <el-input v-model="formData.createTime"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="modifyTime" prop="modifyTime">
-                <el-input v-model="formData.modifyTime"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="createUser" prop="createUser">
-                <el-input v-model="formData.createUser"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="modifyUser" prop="modifyUser">
-                <el-input v-model="formData.modifyUser"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="serialVersionUID" prop="serialVersionUID">
-                <el-input v-model="formData.serialVersionUID"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="id" prop="id">
-                <el-input v-model="formData.id"/>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
               <el-form-item label="中文名称" prop="cname">
                 <el-input v-model="formData.cname"/>
               </el-form-item>
@@ -127,6 +78,18 @@
             </el-col>
           </el-row>
         </el-tab-pane>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('formData',id,'menuFunction')">
+                保存
+              </el-button>
+              <el-button @click="resetForm('formData')">
+                取消
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-tabs>
     </el-form>
   </div>
@@ -151,16 +114,6 @@
             this.$router.push({name: 'tt', params: {rowData: {id: 'new'}}})
           } */
     }
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-         alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-       }
-     })
-   }
     created () {
      this.getFormData(this.controllerMapping, this.id)
     }

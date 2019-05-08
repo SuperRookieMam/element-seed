@@ -11,7 +11,10 @@
    action
    @Formstate.Action('del')
    del
-
+   @Formstate.Action('post')
+   post
+   @Formstate.Action('update')
+   update
    tableData = []
 
    formData = {}
@@ -28,7 +31,8 @@
        )
    }
   deleteRow (tableName, data) {
-      this.del({url: tableName, params: data}).then(ele => {
+     if (data.id) {
+      this.del({url: `${tableName}/${data.id}`, params: data}).then(ele => {
             if (ele && ele.code === 0) {
               let m = []
               this.tableData.forEach(els => {
@@ -37,8 +41,13 @@
                     }
                 })
               this.tableData = m
+            } else {
+              alert(ele.msg)
             }
         })
+     } else {
+       alert('请传入正确的，数据')
+     }
    }
   edit (name, data) {
     this.$router.push({name: name, params: {id: data.id}})
@@ -52,9 +61,44 @@
      if (id !== 'new') {
        this.action({url: `${tableName}/${id}`})
          .then(ele => {
+           if (ele.code === 0) {
              this.formData = ele.data
+           } else {
+             alert(ele.msg)
            }
-         )
+         })
      }
+  }
+  submitForm (formName, id, url) {
+    this.$refs[formName].validate((valid) => {
+      if (valid) {
+        if (id === 'new') {
+          this.post({url: url, params: this.formData})
+            .then(ele => {
+              if (ele.code === 0) {
+                this.formData = ele.data
+                this.$router.go(-1)
+              } else {
+                alert(ele.msg)
+              }
+            })
+        } else {
+          this.update({url: url, params: this.formData})
+              .then(ele => {
+              if (ele.code === 0) {
+                this.formData = ele.data
+                this.$router.go(-1)
+              } else {
+                alert(ele.msg)
+              }
+            })
+        }
+      } else {
+        return false
+      }
+    })
+  }
+  resetForm (formName) {
+     this.$router.go(-1)
   }
  }

@@ -40,13 +40,14 @@ export default [{
         component: () => import('../component/FormSample')
       }]
     }, {
-      name: 'memuFunctions',
-      path: '/memuFunctions',
+      name: 'menuFunctions',
+      path: '/menuFunctions',
       component: () => import('../../admin-module/component/MenuFunction/MenuFunctions')
     }, {
-      name: 'memuFunction',
-      path: '/memuFunction',
-      component: () => import('../../admin-module/component/MenuFunction/MenuFunction')
+      name: 'menuFunction',
+      path: '/menuFunction/:id',
+      component: () => import('../../admin-module/component/MenuFunction/MenuFunction'),
+      props: true
     }
     ]
   }

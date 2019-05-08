@@ -6,11 +6,6 @@
              label-width="80px">
       <el-row>
         <el-col :span="6">
-          <el-form-item label="id">
-            <el-input v-model="serchObj['id']"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
           <el-form-item label="中文名称">
             <el-input v-model="serchObj['cname']"/>
           </el-form-item>
@@ -21,37 +16,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="跳转地址">
-            <el-input v-model="serchObj['url']"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="6">
-          <el-form-item label="排序">
-            <el-input v-model="serchObj['sort']"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
           <el-form-item label="功能编号">
             <el-input v-model="serchObj['functionNumber']"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="父ID">
-            <el-input v-model="serchObj['pid']"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="中文名称">
-            <el-input v-model="serchObj['isMenu']"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="6">
-          <el-form-item label="公司编号">
-            <el-input v-model="serchObj['companyId']"/>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -99,19 +65,19 @@
         prop="companyId"/>
       <el-table-column label="操作" :min-width="60">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="edit('menuFunction',scope.row)">编辑</el-button>
-          <el-button type="text" size="mini" @click="delete(scope.row)">删除</el-button>
+          <el-button type="text" size="mini" @click="edit(controllerMapping,scope.row)">编辑</el-button>
+          <el-button type="text" size="mini" @click="deleteRow(controllerMapping,scope.row)">删除</el-button>
         </template>
       </el-table-column>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="params.pageNum"
-        :page-sizes="pageSizes"
-        :page-size="params.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totalPage"/>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="params.pageNum"
+      :page-sizes="pageSizes"
+      :page-size="params.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalPage"/>
   </div>
 </template>
 <script>
@@ -119,7 +85,7 @@
   import TableBase from '../../../../plugins/TableBase'
   @Component
   export default class MenuFunctions extends Mixins(TableBase) {
-    templateSearch = ' url like t and (url like t or  companyId eq 1)'
+    templateSearch = ' cname like t and ename like t and  functionNumber eq 1'
 
     serchObj = {}
 
@@ -127,7 +93,7 @@
         pageSize: 50,
         pageNum: 1
     }
-    pageSizes = [50, 100, 200, 400]
+    pageSizes = [1, 2, 3, 4]
 
     tableData = []
 
