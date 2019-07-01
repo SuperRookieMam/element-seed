@@ -5,19 +5,17 @@ const loginInstance = axios.create({
   // 登录的数据格式，使用form表单格式
   transformRequest: [(data, headers) => qs.stringify(data, { arrayFormat: 'repeat' })]
 })
-const CT = CONTEXT_PATH + 'data/'
+const CT = CONTEXT_PATH
 export default {
   namespaced: true,
   state: {
     url: {
+      oautLogin: CT + 'oauth/token',
       login: CT + 'login',
       logout: CT + 'logout'
-    },
-    user: {
     }
   },
   getters: {
-    user: state => { return state.user }
   },
   mutations: {
     currentUser: (state, user) => (state.user = user),

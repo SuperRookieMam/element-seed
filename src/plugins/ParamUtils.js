@@ -1,6 +1,5 @@
 
 export default {
-
      analysParam (str) {
        // 吧多个空格替换成一个空格
       let regEx = /\s+/g

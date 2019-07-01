@@ -10,6 +10,7 @@ export default new Store({
   state: {
     title: '应用',
     user: {},
+    loginType: '',
     error: {
       count: 0,
       message: ''
@@ -56,6 +57,9 @@ export default new Store({
     },
     updateMenu (state, menus) {
       state.menus = menus
+    },
+    loginType (state, type) {
+      state.loginType = type
     }
   },
   actions: {
