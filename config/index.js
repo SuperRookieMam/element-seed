@@ -14,7 +14,7 @@ module.exports = {
       // 如果使用本地后台服务，请打开下列配置
       '/data/': {
         changeOrigin: true,
-        target: 'http://127.0.0.1:8005/',
+        target: 'http://127.0.0.1:8002/',
         pathRewrite: { '^/data/': '' }
       }
     }, // devServer反向代理列表

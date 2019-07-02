@@ -2,22 +2,26 @@
   <div id="login" class="loginDiv">
     <div class="inner">
       <el-card class="box-card">
-        <div  class="text item">
-          <div class="inner-div">
-            <label class="inner-div-label">账号:</label>
-            <el-input v-model="input" placeholder="请输入账号"></el-input>
-          </div>
-        </div>
-        <div  class="text item">
-          <div class="inner-div">
-            <label class="inner-div-label">密码:</label>
-            <el-input v-model="input" placeholder="请输入密码"></el-input>
-          </div>
-        </div>
-        <div  class="text item">
-          <div class="inner-div">
-            <el-button type="primary" plain size="medium">登录</el-button>
-          </div>
+        <div class="inner-div">
+          <el-form :label-position="labelPosition"
+                   label-width="80px"
+                   ref="loginForm"
+                   :model="user">
+            <el-form-item label="账号"
+                          :rules="loginRule"
+                          prop="username">
+              <el-input v-model="user.username" placeholder="请输入账号"/>
+            </el-form-item>
+            <el-form-item label="密码"
+                          :rules="loginRule"
+                          prop="password">
+              <el-input v-model="user.password" placeholder="请输入账号"/>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('loginForm')">登陆</el-button>
+              <el-button @click="resetForm('loginForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </el-card>
     </div>
@@ -29,33 +33,40 @@
   import { namespace } from 'vuex-class'
 
   const loginModel = namespace('Login')
- @Component
+  @Component
   export default class Login extends Vue {
-  loginType = ''
-  ordinary = {
-    username: '绝世好男人',
-    password: '123456',
-    ordinaryUrl: ''
-  }
-  oauth = {
-     'grant_type': 'password',
-     'client_id': 'ownerapp',
-     'redirect_uri': '',
-     'oauthServerUrl': ''
-   }
-   @loginModel.Action('login')
-   login
-  toHomePage () {
-  }
-  created () {
+    loginRule = [{required: true, message: '请输入'}]
 
-  }
+    user = {
+      username: '绝世好男人',
+      password: '123456'
+    }
+
+    @loginModel.Action('login')
+    login
+
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+           this.login(this.user).then(ele => {
+            this.$router.push({path: '/'})
+           })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
+
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
+
+    created () {
+
+    }
   }
 </script>
 <style>
   @import "./login.css";
-  .text {
-    font-size: 18px;
-  }
-
 </style>

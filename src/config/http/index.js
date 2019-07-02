@@ -6,6 +6,15 @@ const instance = axios.create()
 
 instance.interceptors.request.use(config => {
   store.commit('loading')
+  if (sessionStorage.getItem('token')) {
+    let token = JSON.parse(sessionStorage.getItem('token'))
+      config.headers.Authorization = `Bearer${token.access_token}`
+  }
+  if (sessionStorage.getItem('user')) {
+    let user = JSON.parse(sessionStorage.getItem('user'))
+    config.headers.username = `${user.username}`
+    config.headers.password = `${user.password}`
+  }
   return config
 }, error => {
   return Promise.reject(error)

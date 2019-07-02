@@ -41,10 +41,8 @@
 <script>
   import Vue from 'vue'
   import { Component } from 'vue-property-decorator'
-  import { Action, Getter, namespace } from 'vuex-class'
+  import { Action, Getter } from 'vuex-class'
   import MenuItem from '../MenuItem'
-
-  const loginModule = namespace('Login')
 
   @Component({
     components: {
@@ -52,18 +50,18 @@
     }
   })
   export default class Leftmain extends Vue {
-    @Action('loadMenu')
-    loadMenu
-
-    @loginModule.Getter('user')
+    @Getter('user')
     currentUser
 
-    @Getter('menus')
-    menus
+    menus = []
+    @Action('loadMenu')
+    loadMenu
     get displayUsername () {
-       let {username} = this.currentUser
-      return username
-  }
+      return this.currentUser.username
+    }
+    created () {
+     this.menus = this.loadMenu()
+    }
   }
 </script>
 <style lang="less">
@@ -84,49 +82,56 @@
     background: #1D2023;
     width: 150px !important;
 
-    .el-menu-item {
-      /*text-align: center;*/
-    }
+  .el-menu-item {
+    /*text-align: center;*/
+  }
 
-    .el-menu-item:hover, .el-submenu__title:hover {
-      background: #85bdfb !important;
-    }
+  .el-menu-item:hover, .el-submenu__title:hover {
+    background: #85bdfb !important;
+  }
 
-    .el-menu {
-      .el-submenu__title {
-        height: 50px;
-        line-height: 50px;
-      }
-    }
+  .el-menu {
+
+  .el-submenu__title {
+    height: 50px;
+    line-height: 50px;
+  }
+
+  }
   }
 
   .el-header {
-    .el-submenu__title {
-      font-size: 18px;
-      color: white !important;
-    }
 
-    .el-menu-item:hover, .el-submenu__title:hover {
-      background: rgb(29, 32, 35) !important;
-    }
+  .el-submenu__title {
+    font-size: 18px;
+    color: white !important;
+  }
+
+  .el-menu-item:hover, .el-submenu__title:hover {
+    background: rgb(29, 32, 35) !important;
+  }
+
   }
 
   .my-submenu {
-    .el-menu--popup {
-      margin-left: 0 !important;
-    }
 
-    .el-menu {
-      .el-menu-item {
-        height: 50px;
-        /*text-align: center;*/
-        min-width: 150px;
-      }
+  .el-menu--popup {
+    margin-left: 0 !important;
+  }
 
-      .el-menu-item:hover {
-        background: #85bdfb !important;
-      }
-    }
+  .el-menu {
+
+  .el-menu-item {
+    height: 50px;
+    /*text-align: center;*/
+    min-width: 150px;
+  }
+
+  .el-menu-item:hover {
+    background: #85bdfb !important;
+  }
+
+  }
   }
 
   .el-menu--collapse {
@@ -141,20 +146,21 @@
     width: 100%;
     height: 100%;
 
-    .el-col {
-      width: 50%;
-      height: 100%;
+  .el-col {
+    width: 50%;
+    height: 100%;
 
-      .title {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        font-size: 26px;
-        padding-left: 30px;
-        color: #fff;
-      }
-    }
+  .title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 26px;
+    padding-left: 30px;
+    color: #fff;
+  }
+
+  }
   }
 
   .el-menu--horizontal {
@@ -163,28 +169,32 @@
   }
 
   .avatar {
-    img {
-      display: block;
-      width: 50px;
-      height: 50px;
-      border-radius: 100%;
-      margin-top: 5px;
-    }
+
+  img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin-top: 5px;
+  }
+
   }
 
   .el-menu--horizontal {
-    li:nth-child(3) {
-      width: 15px;
 
-      .el-submenu__title {
-        height: 61px;
-        background: red;
+  li:nth-child(3) {
+    width: 15px;
 
-        .el-submenu__icon-arrow {
-          top: 64%;
-          right: 48px;
-        }
-      }
-    }
+  .el-submenu__title {
+    height: 61px;
+    background: red;
+
+  .el-submenu__icon-arrow {
+    top: 64%;
+    right: 48px;
+  }
+
+  }
+  }
   }
 </style>

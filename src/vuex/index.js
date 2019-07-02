@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
+import { httpInstance } from '../config'
 import Login from './login'
 import FormState from './FormState'
 
@@ -10,22 +11,27 @@ export default new Store({
   state: {
     title: '应用',
     user: {},
-    loginType: '',
+    token: {},
+    refresh_token: '',
     error: {
       count: 0,
       message: ''
     },
     loadingCount: 0,
+    loginType: '',
     theme: 'left',
     menus: [],
     url: {
-      authorityMenus: CTX + 'menuFunction/menus',
+      authorityMenus: CTX + 'menuFunctionRole/menus',
       login: CTX + 'login',
       logout: CTX + 'logout'
     }
   },
   getters: {
-    menus: state => { return state.menus }
+    menus: state => { return state.menus },
+    loginType: state => { return state.loginType },
+    token: state => { return state.token },
+    user: state => { return state.user }
   },
   mutations: {
     updateTitle (state, { title }) {
@@ -58,13 +64,16 @@ export default new Store({
     updateMenu (state, menus) {
       state.menus = menus
     },
-    loginType (state, type) {
-      state.loginType = type
+    updateToken (state, data) {
+      state.token = data
+    },
+    loginType: (state, loginType) => {
+      state.loginType = loginType
     }
   },
   actions: {
     loadMenu ({commit, state: { url }}) {
-      return Vue.http.get(url.authorityMenus)
+      return httpInstance.get(url.authorityMenus)
                     .then(({ data }) => {
                       commit('updateMenu', data)
                     return data
