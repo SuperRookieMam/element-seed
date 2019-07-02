@@ -73,11 +73,31 @@ export default new Store({
   },
   actions: {
     loadMenu ({commit, state: { url }}) {
-      return httpInstance.get(url.authorityMenus)
-                    .then(({ data }) => {
-                      commit('updateMenu', data)
-                    return data
-                  })
+      return httpInstance.get(url.authorityMenus).then(({ data }) => {
+              let parent = {}
+              let all = {}
+              data.forEach(ele => {
+                if (parent.hasOwnProperty(ele.pid) && ele.pid !== 0) {
+                  parent[ele.pid].push(ele)
+                } else if (ele.pid !== 0) {
+                  parent[ele.pid] = [ele]
+                }
+                all[ele.id] = 1
+              })
+              let menus = []
+              data.forEach(ele => {
+                ele.submenus = parent[ele.id]
+                if (ele.pid === 0) {
+                    menus.push(ele)
+                } else {
+                   if (!all.hasOwnProperty(ele.pid)) {
+                     menus.push(ele)
+                   }
+                }
+              })
+              commit('updateMenu', menus)
+              return menus
+           })
     }
   },
   modules: {

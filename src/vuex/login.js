@@ -18,7 +18,7 @@ export default {
     },
     oauth: {
       grant_type: 'password',
-      client_id: '2c9137216bab4b1e016bab4ba50a0000',
+      client_id: '2c9eaf716b9e9352016b9e9370190000',
       client_secret: '123456'
     }
   },
@@ -47,7 +47,7 @@ export default {
            sessionStorage.setItem('token', JSON.stringify(data))
            return loginInstance.get(`${url.userInfo}?access_token=${data.access_token}`).then(({data}) => {
               commit('updateUser', data.data, {root: true})
-             sessionStorage.setItem('user', JSON.stringify(data.data))
+              sessionStorage.setItem('user', JSON.stringify(data.data))
               return true
             })
         })

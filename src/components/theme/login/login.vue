@@ -3,8 +3,7 @@
     <div class="inner">
       <el-card class="box-card">
         <div class="inner-div">
-          <el-form :label-position="labelPosition"
-                   label-width="80px"
+          <el-form label-width="80px"
                    ref="loginForm"
                    :model="user">
             <el-form-item label="账号"
@@ -38,7 +37,7 @@
     loginRule = [{required: true, message: '请输入'}]
 
     user = {
-      username: '绝世好男人',
+      username: 'jueshihaonanren',
       password: '123456'
     }
 
@@ -48,9 +47,9 @@
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-           this.login(this.user).then(ele => {
+          this.login(this.user).then(ele => {
             this.$router.push({path: '/'})
-           })
+          })
         } else {
           console.log('error submit!!')
           return false

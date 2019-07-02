@@ -6,7 +6,7 @@ const instance = axios.create()
 
 instance.interceptors.request.use(config => {
   store.commit('loading')
-  if (sessionStorage.getItem('token')) {
+ if (sessionStorage.getItem('token')) {
     let token = JSON.parse(sessionStorage.getItem('token'))
       config.headers.Authorization = `Bearer${token.access_token}`
   }
@@ -33,8 +33,8 @@ instance.interceptors.response.use(response => {
   return response
 }, error => {
   store.commit('loadingComplete')
-  let { response: { status } } = error
-  if (status === 401) {
+  /* let { response: { status } } = error */
+  if (error === 401) {
     let url = encodeURI(window.location.href)
     sessionStorage.setItem('savedUrl', url)
     router.replace({ name: 'login' })

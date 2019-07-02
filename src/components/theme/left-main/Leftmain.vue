@@ -52,15 +52,16 @@
   export default class Leftmain extends Vue {
     @Getter('user')
     currentUser
+    @Getter('menus')
+    menus
 
-    menus = []
     @Action('loadMenu')
     loadMenu
+
     get displayUsername () {
       return this.currentUser.username
     }
     created () {
-     this.menus = this.loadMenu()
     }
   }
 </script>
