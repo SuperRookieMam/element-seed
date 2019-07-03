@@ -28,7 +28,7 @@
           </el-button>
           <el-button type="primary"
                      size="mini"
-                     @click="add('menuFunction')">
+                     @click="add('menutree')">
             新增
           </el-button>
         </el-col>

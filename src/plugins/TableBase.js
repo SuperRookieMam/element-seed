@@ -1,5 +1,4 @@
  import Vue from 'vue'
- import AnalysParam from './ParamUtils'
  import { namespace } from 'vuex-class'
  import { Component } from 'vue-property-decorator'
 
@@ -8,46 +7,55 @@
 @Component
  export default class TableBase extends Vue {
    @Formstate.Action('get')
-   action
+   Get
    @Formstate.Action('del')
-   del
+   Del
    @Formstate.Action('post')
-   post
-   @Formstate.Action('update')
    update
+   @Formstate.Action('put')
+   insert
+
    tableData = []
 
    formData = {}
 
    totalPage = 0
-
-   search (templateSearch, serchObj, params, tableName) {
-     params.pageNum = 1
-     params.expressions = AnalysParam.searchParamsBuild(templateSearch, serchObj)
-     return this.action({url: tableName, params: {page: 'page', whereContext: JSON.stringify(params)}})
-       .then(ele => {
-         return ele
+   // get 请求，如果时是使用后台生成的接口用的是 dynamicParams 名字请用 dynamicParams请传true
+  select (url, params, dynamicParams, flags) {
+     let paramobj
+     if (params && dynamicParams) {
+       paramobj = {'dynameicParams': JSON.stringify(params)}
+       if (flags) {
+         if (Array.isArray(flags)) {
+           flags.forEach(ele => {
+             paramobj[ele.key] = ele.value
+           })
+         } else {
+           paramobj[flags.key] = flags.value
          }
-       )
-   }
-  deleteRow (tableName, data) {
-     if (data.id) {
-      this.del({url: `${tableName}/${data.id}`, params: data}).then(ele => {
-            if (ele && ele.code === 0) {
-              let m = []
-              this.tableData.forEach(els => {
-                    if (els.id !== data.id) {
-                        m.push(els)
-                    }
-                })
-              this.tableData = m
-            } else {
-              alert(ele.msg)
-            }
-        })
-     } else {
-       alert('请传入正确的，数据')
+       }
      }
+      return this.Get(url, paramobj).then(ele => { return ele.data })
+   }
+   remove (url, params, dynamicParams, flags) {
+     let paramobj
+     if (params && dynamicParams) {
+       paramobj = {'dynameicParams': JSON.stringify(params)}
+       if (flags) {
+         if (Array.isArray(flags)) {
+           flags.forEach(ele => {
+             paramobj[ele.key] = ele.value
+           })
+         } else {
+           paramobj[flags.key] = flags.value
+         }
+       }
+     }
+     return this.Del(url, paramobj).then(ele => { return ele.data })
+   }
+   search (url, serchObj, dynamicParams) {
+   }
+  deleteRow (url, params) {
    }
   edit (name, data) {
     this.$router.push({name: name, params: {id: data.id}})
@@ -69,7 +77,7 @@
          })
      }
   }
-  submitForm (formName, id, url) {
+  submitForm (url, formName, id) {
     this.$refs[formName].validate((valid) => {
       if (valid) {
         if (id === 'new') {
@@ -95,6 +103,17 @@
         }
       } else {
         return false
+      }
+    })
+  }
+  message (msg, title) {
+    this.$alert(msg, title, {
+      confirmButtonText: '确定',
+      callback: action => {
+        this.$message({
+          type: 'info',
+          message: `action: ${ action }`
+        })
       }
     })
   }

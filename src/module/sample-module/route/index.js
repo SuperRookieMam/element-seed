@@ -48,6 +48,11 @@ export default [{
       path: '/menuFunction/:id',
       component: () => import('../../admin-module/component/MenuFunction/MenuFunction'),
       props: true
+    }, {
+      name: 'menutree',
+      path: '/menutree',
+      component: () => import('@/components/theme/TreeSetting/MenuTree'),
+      props: true
     }
     ]
   }

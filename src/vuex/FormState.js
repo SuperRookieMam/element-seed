@@ -1,13 +1,12 @@
-import Vue from 'vue'
 import qs from 'qs'
+import { httpInstance } from '../config'
 
-const CTX = CONTEXT_PATH + 'data/'
 export default class FormState {
   namespaced = true
   state ={
     data: {}
   }
-   getters = {
+  getters = {
     data: state => { return state.data }
   }
   mutations = {
@@ -17,32 +16,36 @@ export default class FormState {
   }
   actions = {
     get ({commit, state}, {url, params}) {
-      if (params) {
-        return Vue.http.get(CTX + url + '?' + qs.stringify(params)).then(result => {
-            commit('data', result)
+        if (params) {
+          return httpInstance.get(`${url}?` + qs.stringify(params)).then(result => {
             return result
-        })
-      } else {
-        return Vue.http.get(CTX + url).then(result => {
+          })
+        } else {
+          return httpInstance.get(url).then(result => {
             return result
-        })
-      }
-      // return Vue.http.get(CTX + url, params)
+          })
+        }
     },
     post ({ state }, {url, params}) {
-      return Vue.http.post(CTX + url, params).then(result => {
+      return httpInstance.post(url, params).then(result => {
           return result
       })
     },
-    update ({ state }, { url, params }) {
-      return Vue.http.put(CTX + url, params).then(result => {
+    put ({ state }, { url, params }) {
+      return httpInstance.put(url, params).then(result => {
           return result
       })
     },
-    del ({ state }, { url }) {
-      return Vue.http.delete(CTX + url).then(result => {
+    del ({ state }, { url, params }) {
+      if (params) {
+        return httpInstance.get(`${url}?` + qs.stringify(params)).then(result => {
           return result
-      })
+        })
+      } else {
+        return httpInstance.get(url).then(result => {
+          return result
+        })
+      }
     }
   }
 }
