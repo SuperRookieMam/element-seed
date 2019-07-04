@@ -33,14 +33,14 @@ instance.interceptors.response.use(response => {
   return response
 }, error => {
   store.commit('loadingComplete')
-  /* let { response: { status } } = error */
-  if (error === 401) {
+  let { response: { status } } = error
+  if (status === 401) {
     let url = encodeURI(window.location.href)
     sessionStorage.setItem('savedUrl', url)
     router.replace({ name: 'login' })
   } else {
     store.commit('addError', error)
-  }
-  return Promise.reject(error)
+}
+return Promise.reject(error)
 })
 export default instance
