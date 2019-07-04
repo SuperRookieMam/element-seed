@@ -53,6 +53,11 @@ export default [{
       path: '/menutree',
       component: () => import('@/components/theme/TreeSetting/MenuTree'),
       props: true
+    }, {
+      name: 'menuRoleTree',
+      path: '/menuRoleTree',
+      component: () => import('@/components/theme/TreeSetting/MenuRoleTree'),
+      props: true
     }
     ]
   }

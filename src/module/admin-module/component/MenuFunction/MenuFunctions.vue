@@ -28,7 +28,7 @@
           </el-button>
           <el-button type="primary"
                      size="mini"
-                     @click="add('menutree')">
+                     @click="add('menuRoleTree')">
             新增
           </el-button>
         </el-col>
