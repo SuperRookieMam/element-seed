@@ -1,6 +1,6 @@
 import qs from 'qs'
 import { httpInstance } from '../config'
-
+const ip = CONTEXT_PATH
 export default class FormState {
   namespaced = true
   state ={
@@ -17,32 +17,32 @@ export default class FormState {
   actions = {
     get ({commit, state}, {url, params}) {
         if (params) {
-          return httpInstance.get(`${url}?` + qs.stringify(params)).then(result => {
+          return httpInstance.get(`${CONTEXT_PATH}${url}?` + qs.stringify(params)).then(result => {
             return result
           })
         } else {
-          return httpInstance.get(url).then(result => {
+          return httpInstance.get(`${CONTEXT_PATH}${url}`).then(result => {
             return result
           })
         }
     },
     post ({ state }, {url, params}) {
-      return httpInstance.post(url, params).then(result => {
+      return httpInstance.post(`${CONTEXT_PATH}${url}`, params).then(result => {
           return result
       })
     },
     put ({ state }, { url, params }) {
-      return httpInstance.put(url, params).then(result => {
+      return httpInstance.put(`${ip}${url}`, params).then(result => {
           return result
       })
     },
     del ({ state }, { url, params }) {
       if (params) {
-        return httpInstance.get(`${url}?` + qs.stringify(params)).then(result => {
+        return httpInstance.delete(`${CONTEXT_PATH}${url}?` + qs.stringify(params)).then(result => {
           return result
         })
       } else {
-        return httpInstance.get(url).then(result => {
+        return httpInstance.delete(`${CONTEXT_PATH}${url}`).then(result => {
           return result
         })
       }

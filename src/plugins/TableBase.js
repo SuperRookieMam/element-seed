@@ -35,7 +35,7 @@
          }
        }
      }
-      return this.Get(url, paramobj).then(ele => { return ele.data })
+      return this.Get({url: url, params: paramobj}).then(ele => { return ele.data })
    }
    remove (url, params, dynamicParams, flags) {
      let paramobj
@@ -51,7 +51,7 @@
          }
        }
      }
-     return this.Del(url, paramobj).then(ele => { return ele.data })
+     return this.Del({url: url, params: paramobj}).then(ele => { return ele.data })
    }
    search (url, serchObj, dynamicParams) {
    }
@@ -76,6 +76,9 @@
            }
          })
      }
+  }
+  resetForm (formName) {
+    this.$router.go(-1)
   }
   submitForm (url, formName, id) {
     this.$refs[formName].validate((valid) => {
@@ -117,7 +120,28 @@
       }
     })
   }
-  resetForm (formName) {
-     this.$router.go(-1)
+  getTree (arr, treeChieldName, pidname) {
+    let parent = {}
+    let all = {}
+    arr.forEach(ele => {
+      if (parent.hasOwnProperty(ele.pid) && ele.pid !== 0) {
+        parent[ele[pidname]].push(ele)
+      } else if (ele[pidname] !== 0) {
+        parent[ele[pidname]] = [ele]
+      }
+      all[ele.id] = 1
+    })
+    let tree = []
+    arr.forEach(ele => {
+      ele[treeChieldName] = parent[ele.id]
+      if (ele.pid === 0) {
+        tree.push(ele)
+      } else {
+        if (!all.hasOwnProperty(ele.pid)) {
+          tree.push(ele)
+        }
+      }
+    })
+    return tree
   }
  }
