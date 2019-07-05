@@ -24,9 +24,9 @@
     @Prop({default: () => {}})
     item
 
-    toTarget ({isMenu}) {
+    toTarget ({isMenu, routeName}) {
       if (isMenu === 1) {
-         this.$router.push('menuFunctions')
+         this.$router.push(routeName)
       }
     }
   }

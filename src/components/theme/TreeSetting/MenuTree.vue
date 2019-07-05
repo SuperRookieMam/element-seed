@@ -30,12 +30,12 @@
                             <el-input-number v-model="newRoot.sort" controls-position="right"/>
                           </el-col>
                         </el-form-item>
-                        <el-form-item label="功能编号" prop="functionNumber">
+                        <el-form-item label="链接地址" prop="url">
                           <el-col :span="18">
-                            <el-input-number v-model="newRoot.functionNumber" controls-position="right"/>
+                            <el-input v-model="newRoot.url"/>
                           </el-col>
                         </el-form-item>
-                        <el-form-item label="点击跳转" prop="isMenu">
+                        <el-form-item label="路由开关" prop="isMenu">
                           <el-col :span="18">
                             <el-switch
                               v-model="newRoot.isMenu"
@@ -43,9 +43,9 @@
                               inactive-color="#ff4949"/>
                           </el-col>
                         </el-form-item>
-                        <el-form-item label="跳转地址" prop="url" v-if="newRoot.isMenu === true">
+                        <el-form-item label="路由名称" prop="routeName" v-if="newRoot.isMenu === true">
                           <el-col :span="18">
-                            <el-input v-model="newRoot.url"/>
+                            <el-input v-model="newRoot.routeName"/>
                           </el-col>
                         </el-form-item>
                         <el-form-item label="是否显示" prop="isShow">
@@ -106,8 +106,15 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="功能编号">
-                    <el-input type="number" v-model="currentParentNode.functionNumber"/>
+                  <el-form-item label="路由名称">
+                    <el-input v-model="currentParentNode.routeName"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="链接地址">
+                    <el-input v-model="currentParentNode.url"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -153,14 +160,14 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="功能编号" prop="functionNumber">
-                    <el-input type="number" v-model="newsubnode.functionNumber"/>
+                  <el-form-item label="链接地址" prop="url">
+                    <el-input v-model="newsubnode.url"/>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="点击跳转" prop="isMenu">
+                  <el-form-item label="路由开关" prop="isMenu">
                     <el-switch
                       v-model="newsubnode.isMenu"
                       active-color="#13ce66"
@@ -168,10 +175,10 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-row v-if="newsubnode.isMenu === true">
+              <el-row>
                 <el-col :span="12">
-                  <el-form-item label="跳转地址" prop="url">
-                    <el-input v-model="newsubnode.url"/>
+                  <el-form-item label="路由名称" prop="routeName" v-if="newsubnode.isMenu === true">
+                    <el-input v-model="newsubnode.routeName"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -219,8 +226,7 @@
     rules = {
       cname: [{required: true, message: '请输入中文名称', trigger: 'blur'}],
       ename: [{required: true, message: '请输入英文名称', trigger: 'change'}],
-      sort: [{required: true, message: '请输入排序权重', trigger: 'change'}],
-      functionNumber: [{required: true, message: '请输入功能编号', trigger: 'change'}]
+      sort: [{required: true, message: '请输入排序权重', trigger: 'change'}]
     }
     defaultProps = {
       children: 'children',
@@ -247,7 +253,7 @@
           tempRoot.url = this.newRoot.url ? this.newRoot.url : ''
           tempRoot.isMenu = this.newRoot.isMenu ? 1 : 0
           tempRoot.isShow = this.newRoot.isShow ? 1 : 0
-          tempRoot.functionNumber = this.newRoot.functionNumber
+          tempRoot.routeName = this.newRoot.routeName
           tempRoot.isFlow = 1
           tempRoot.pid = 0
           this.insert({url: 'data/menuFunction', params: [tempRoot]}).then(data => {
@@ -281,7 +287,7 @@
           tempsub.url = this.newsubnode.url ? this.newsubnode.url : ''
           tempsub.isMenu = this.newsubnode.isMenu ? 1 : 0
           tempsub.isShow = this.newsubnode.isShow ? 1 : 0
-          tempsub.functionNumber = this.newsubnode.functionNumber
+          tempsub.routeName = this.newsubnode.routeName
           tempsub.isFlow = 1
           tempsub.pid = this.currentParentNode.id
           this.insert({url: 'data/menuFunction', params: [tempsub]}).then(data => {
@@ -327,8 +333,7 @@
     updateNode () {
       if (!this.currentParentNode.id ||
           !this.currentParentNode.pid ||
-          !this.currentParentNode.cname ||
-          !this.currentParentNode.functionNumber) {
+          !this.currentParentNode.cname) {
         this.message('请完整选中状态的节点信息', '友情提示')
         return
       }
@@ -353,7 +358,9 @@
     }
 
     deleteNode () {
-      if (!this.currentParentNode.id || !this.currentParentNode.pid || !this.currentParentNode.cname) {
+      if (!this.currentParentNode.id ||
+          !this.currentParentNode.pid ||
+          !this.currentParentNode.cname) {
         this.message('请完整选中状态的节点信息', '友情提示')
         return
       }
