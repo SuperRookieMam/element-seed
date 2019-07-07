@@ -26,7 +26,7 @@
 
     toTarget ({isMenu, routeName}) {
       if (isMenu === 1) {
-         this.$router.push(routeName)
+         this.$router.push({name: routeName})
       }
     }
   }

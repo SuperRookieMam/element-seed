@@ -1,7 +1,7 @@
-import axios from 'axios'
+import { httpInstance } from '../config'
 
 export default {
-  install (Vue, instance = axios.create()) {
+  install (Vue, instance = httpInstance) {
     Vue.prototype.$http = instance
     Vue.http = instance
 }

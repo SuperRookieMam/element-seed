@@ -18,7 +18,7 @@ export default {
     },
     oauth: {
       grant_type: 'password',
-      client_id: '2c9137216bab4b1e016bab4ba50a0000',
+      client_id: '2c9eaf716b9e9352016b9e9370190000',
       client_secret: '123456'
     }
   },

@@ -1,1 +1,1 @@
-export { default as SampleModule } from './sample-module'
+export { default as AdminModule } from './admin-module'

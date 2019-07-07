@@ -12,18 +12,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 import store from './vuex'
 import { httpInstance, router } from './config'
 import { AjaxPlugin } from './plugins'
-// 载入模拟数据，在对接后端服务器接口时，取消掉
-import '../data'
 
-import { SampleModule } from './module'
+import { AdminModule } from './module'
 
 Vue.config.productionTip = false
 Vue.use(ElementUi)
 Vue.use(VueRouter)
 Vue.use(AjaxPlugin, httpInstance)
-Vue.use(SampleModule, { store, router })
-
-console.log('Created By ldwqh0@outlook.com')
+Vue.use(AdminModule, { store, router })
 
 /**
  *  一定要使用 render函数创建app,这样就不需要依赖完整的esm，也就是不需要打包vue的编译模块了，

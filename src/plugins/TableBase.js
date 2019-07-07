@@ -4,7 +4,7 @@
 
  const Formstate = namespace('Formstate')
 
-@Component
+ @Component
  export default class TableBase extends Vue {
    @Formstate.Action('get')
    Get
@@ -19,7 +19,7 @@
 
    formData = {}
 
-   totalPage = 0
+   totalCount = 0
    // get 请求，如果时是使用后台生成的接口用的是 dynamicParams 名字请用 dynamicParams请传true
   select (url, params, dynamicParams, flags) {
      let paramobj
@@ -37,7 +37,7 @@
      }
       return this.Get({url: url, params: paramobj}).then(ele => { return ele.data })
    }
-   remove (url, params, dynamicParams, flags) {
+  remove (url, params, dynamicParams, flags) {
      let paramobj
      if (params && dynamicParams) {
        paramobj = {'dynameicParams': JSON.stringify(params)}
@@ -53,10 +53,6 @@
      }
      return this.Del({url: url, params: paramobj}).then(ele => { return ele.data })
    }
-   search (url, serchObj, dynamicParams) {
-   }
-  deleteRow (url, params) {
-   }
   edit (name, data) {
     this.$router.push({name: name, params: {id: data.id}})
   }
@@ -65,42 +61,36 @@
     this.edit(name, data)
   }
 
-  getFormData (tableName, id) {
+  getFormData (url, id) {
      if (id !== 'new') {
-       this.action({url: `${tableName}/${id}`})
-         .then(ele => {
-           if (ele.code === 0) {
-             this.formData = ele.data
-           } else {
-             alert(ele.msg)
-           }
+       this.select(`${url}/${id}`).then(data => {
+           this.formData = data
          })
      }
   }
   resetForm (formName) {
     this.$router.go(-1)
   }
-  submitForm (url, formName, id) {
+  submitForm (formName, id, url) {
     this.$refs[formName].validate((valid) => {
       if (valid) {
         if (id === 'new') {
-          this.post({url: url, params: this.formData})
-            .then(ele => {
+          this.insert({url: url, params: [this.formData]}).then(ele => {
               if (ele.code === 0) {
-                this.formData = ele.data
+                this.formData = ele.data[0]
                 this.$router.go(-1)
               } else {
-                alert(ele.msg)
+                this.message(ele.msg, '友情提示')
               }
             })
         } else {
-          this.update({url: url, params: this.formData})
+          this.update({url: url, params: [this.formData]})
               .then(ele => {
               if (ele.code === 0) {
-                this.formData = ele.data
+                this.formData = ele.data[0]
                 this.$router.go(-1)
               } else {
-                alert(ele.msg)
+               this.message(ele.msg, '友情提示')
               }
             })
         }
